@@ -1,6 +1,8 @@
 # discord-dungeon-master
 
-## VENV
+## Instalación
+
+Para correr el proyecto necesitas tener instalado [Python](https://www.python.org).
 
 Abre una terminal y navega hasta el directorio de tu proyecto.
 
@@ -26,10 +28,42 @@ Cuando hayas terminado de trabajar en tu proyecto, puedes desactivar el ambiente
 
 Esto desactivará el ambiente virtual **venv** y volverás al ambiente de Python global.
 
-Con el archivo requirements.txt, otras personas que quieran trabajar en tu proyecto pueden crear su propio ambiente virtual y ejecutar el siguiente comando para instalar todas las dependencias:
+## Variables de ambiente
 
-Para correr el proyecto ejecutar el comando:
+Debes copiar el archivo ".env.example" y crear tu propio archivo ".env" dentro del mismo directorio:
+
+- DISCORD_BOT_TOKEN: El token de tu aplicación de Discord, para más información puedes leer la [documentación de Discord](https://discord.com/developers/docs/getting-started#adding-credentials).
+
+## Iniciar
+
+Para iniciar el proyecto se puede ejecutar el comando:
 
 `python main.py`
 
-Puedes invitar al bot a tu servidor con el siguiente [enlace](https://discord.com/api/oauth2/authorize?client_id=1092247272361828373&permissions=3072&scope=bot).
+Para invitar al bot al servidor puedes ingresar al siguiente [enlace](https://discord.com/api/oauth2/authorize?client_id=1092247272361828373&permissions=3072&scope=bot). Para más información acerca crear un bot de Discord e invitarlo a tu servidor puedes leer la [documentación](https://discord.com/developers/docs/getting-started#step-1-creating-an-app).
+
+## Comandos
+
+### Estado
+Puedes consultar por un estado alterado escribiendo el siguiente mensaje en cualquier canal:
+
+`
+!estado "Estado"
+`
+
+El estado puede ser uno de la siguiente lista:
+- blinded
+- charmed
+- deafened
+- exhaustion
+- frightened
+- grappled
+- incapacitated
+- invisible
+- paralyzed
+- petrified
+- poisoned
+- prone
+- restrained
+- stunned
+- unconscious
