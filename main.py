@@ -1,10 +1,11 @@
 import os
 import discord
 import requests
+from dotenv import load_dotenv
 
-BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN')
+load_dotenv()
 
-intents = discord.Intents(messages=True, members=True)
+intents = discord.Intents(messages=True, members=True, message_content=True)
 client = discord.Client(intents=intents)
 
 @client.event
@@ -15,16 +16,18 @@ async def on_ready():
 async def on_message(message):
     if message.author == client.user:
         return
+    if message.content:
+        await message.channel.send('Estoy trabajando en ello...')
+        if message.content.startswith('!estado'):
+            query = message.content[len('!estado '):].strip()
+            response = requests.get('http://www.dnd5eapi.co/api/conditions/' + query)
 
-    if message.content.startswith('!estado'):
-        query = message.content[len('!estado '):].strip()
-        response = requests.get('http://www.dnd5eapi.co/api/features/' + query)
+            if response.status_code == 200:
+                data = response.json()
+                embed = discord.Embed(title=data['name'], description=data['desc'][0], color=0x00ff00)
+                await message.channel.send(embed=embed)
+            else:
+                await message.channel.send('No se pudo encontrar información sobre ese estado.')
 
-        if response.status_code == 200:
-            data = response.json()
-            embed = discord.Embed(title=data['name'], description=data['desc'][0], color=0x00ff00)
-            await message.channel.send(embed=embed)
-        else:
-            await message.channel.send('No se pudo encontrar información sobre ese estado.')
-
-client.run(BOT_TOKEN)
+if __name__ == '__main__':
+    client.run(os.getenv('DISCORD_BOT_TOKEN'))
