@@ -3,7 +3,7 @@ import discord
 import requests
 
 BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN')
-
+print(BOT_TOKEN)
 intents = discord.Intents(messages=True, members=True)
 client = discord.Client(intents=intents)
 
@@ -15,16 +15,27 @@ async def on_ready():
 async def on_message(message):
     if message.author == client.user:
         return
-
-    if message.content.startswith('!estado'):
-        query = message.content[len('!estado '):].strip()
-        response = requests.get('http://www.dnd5eapi.co/api/features/' + query)
+    
+    print("Mensaje recibido\n")
+    # ShopKeeper
+    if message.content.startswith('!shop'):
+        print("SHOP: ")
+        query = message.content[len('!shop '):].strip()
+        api_url = 'https://www.dnd5eapi.co/api/equipment/' + query
+        print(f"Query: {api_url}")
+        response = requests.get(api_url)
 
         if response.status_code == 200:
             data = response.json()
-            embed = discord.Embed(title=data['name'], description=data['desc'][0], color=0x00ff00)
+            desc = f"""
+Cost: {data['cost']['quantity']} {data['cost']['unit']}
+Damage: {data['damage']['damage_dice']} de tipo \"{data['damage']['damage_type']['name']}\"
+Rango normal:{data['range']['normal']}
+Rango distancia: {data['range']['long'] if 'long' in data['range'].keys() else 'No aplica'}
+Peso: {data['weight']} lb"""
+            embed = discord.Embed(title=data['name'], description=desc, color=0x00ff00)
             await message.channel.send(embed=embed)
         else:
             await message.channel.send('No se pudo encontrar información sobre ese estado.')
 
-client.run(BOT_TOKEN)
+client.run("MTA5MjIyMDQ5OTI5MzExNDQzOA.GaczBx.5nuQqscOnjnc6hE7g_EmzKS6wQ1a_KmmUWA590")
