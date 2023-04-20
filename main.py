@@ -2,8 +2,7 @@ import os
 import discord
 import requests
 
-BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN')
-print(BOT_TOKEN)
+
 intents = discord.Intents(messages=True, members=True)
 client = discord.Client(intents=intents)
 
@@ -38,4 +37,4 @@ Peso: {data['weight']} lb"""
         else:
             await message.channel.send('No se pudo encontrar información sobre ese estado.')
 
-client.run("MTA5MjIyMDQ5OTI5MzExNDQzOA.GaczBx.5nuQqscOnjnc6hE7g_EmzKS6wQ1a_KmmUWA590")
+os.getenv('DISCORD_BOT_TOKEN')
