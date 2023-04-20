@@ -1,7 +1,9 @@
 import os
 import discord
 import requests
+from dotenv import load_dotenv
 
+load_dotenv()
 
 intents = discord.Intents(messages=True, members=True)
 client = discord.Client(intents=intents)
@@ -37,4 +39,4 @@ Peso: {data['weight']} lb"""
         else:
             await message.channel.send('No se pudo encontrar información sobre ese estado.')
 
-os.getenv('DISCORD_BOT_TOKEN')
+client.run(str(os.getenv('DISCORD_BOT_TOKEN')))
