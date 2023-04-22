@@ -1,42 +1,38 @@
 import os
 import discord
-import requests
+from helper import Helper
+from shopkeeper import ShopKeeper
 from dotenv import load_dotenv
 
 load_dotenv()
 
-intents = discord.Intents(messages=True, members=True)
-client = discord.Client(intents=intents)
-
-@client.event
-async def on_ready():
-    print('Logged in as {0.user}'.format(client))
-
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
+class MaestroDelCalabozo(discord.Client):
+    def __init__(self, intents) -> None:
+        super().__init__(intents=intents)
+        self.helper = Helper()
+        self.shopKeeper = ShopKeeper()
     
-    print("Mensaje recibido\n")
-    # ShopKeeper
-    if message.content.startswith('!shop'):
-        print("SHOP: ")
-        query = message.content[len('!shop '):].strip()
-        api_url = 'https://www.dnd5eapi.co/api/equipment/' + query
-        print(f"Query: {api_url}")
-        response = requests.get(api_url)
+    async def on_ready(self):
+        print('Logged in as {0.name}'.format(self.user))
+        
+    async def on_message(self, message):
+        if message.author == self.user:
+            return
+        
+        print("Mensaje recibido\n")
+        print(message.content)
+        
+        # Helper
+        if message.content.startswith('!help'):
+            await message.channel.send(embed=self.helper.on_message(message))
+            return
+            
+        # ShopKeeper
+        if message.content.startswith('!shop'):
+            await message.channel.send(embed=self.shopKeeper.on_message(message))
+            return
 
-        if response.status_code == 200:
-            data = response.json()
-            desc = f"""
-Cost: {data['cost']['quantity']} {data['cost']['unit']}
-Damage: {data['damage']['damage_dice']} de tipo \"{data['damage']['damage_type']['name']}\"
-Rango normal:{data['range']['normal']}
-Rango distancia: {data['range']['long'] if 'long' in data['range'].keys() else 'No aplica'}
-Peso: {data['weight']} lb"""
-            embed = discord.Embed(title=data['name'], description=desc, color=0x00ff00)
-            await message.channel.send(embed=embed)
-        else:
-            await message.channel.send('No se pudo encontrar información sobre ese estado.')
 
-client.run(str(os.getenv('DISCORD_BOT_TOKEN')))
+intents = discord.Intents(messages=True, members=True)
+clnt = MaestroDelCalabozo(intents)
+clnt.run(str(os.getenv('DISCORD_BOT_TOKEN')))
