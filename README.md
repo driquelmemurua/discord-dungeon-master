@@ -44,26 +44,21 @@ Para invitar al bot al servidor puedes ingresar al siguiente [enlace](https://di
 
 ## Comandos
 
-### Estado
-Puedes consultar por un estado alterado escribiendo el siguiente mensaje en cualquier canal:
+### Helper
 
-`
-!estado "Estado"
+Muestra una lista de comandos principales y sus descripciones
+` 
+!help
 `
 
-El estado puede ser uno de la siguiente lista:
-- blinded
-- charmed
-- deafened
-- exhaustion
-- frightened
-- grappled
-- incapacitated
-- invisible
-- paralyzed
-- petrified
-- poisoned
-- prone
-- restrained
-- stunned
-- unconscious
+### ShopKeeper
+
+Muestra una lista de comandos relacionados con la tienda
+`
+!shop
+`
+
+Muestra información relacionada con ==equipment== si es que existe
+`
+!shop-eqmt <equipment>
+`
