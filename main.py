@@ -19,7 +19,7 @@ class MaestroDelCalabozo(discord.Client):
         if message.author == self.user:
             return
         
-        print("Mensaje recibido\n")
+        print("Mensaje recibido")
         print(message.content)
         
         # Helper
